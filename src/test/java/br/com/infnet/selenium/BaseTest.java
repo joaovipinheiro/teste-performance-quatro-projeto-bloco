@@ -1,6 +1,7 @@
 // ==================== BaseTest.java ====================
 package br.com.infnet.selenium;
 
+import br.com.infnet.InfnetCrudApplication; // [NOVO] Import da sua classe Main
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,12 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.test.context.SpringBootTest; // [NOVO] Import do Spring Test
 
 import java.time.Duration;
 
 /**
- * Classe base para testes Selenium com melhorias de performance e estabilidade.
+ * Classe base configurada para CI/CD (GitHub Actions).
+ * A anotação @SpringBootTest garante que o servidor suba na porta 8080.
  */
+// [IMPORTANTE] Esta linha faz o servidor rodar durante os testes no GitHub
+@SpringBootTest(classes = InfnetCrudApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public abstract class BaseTest {
 
     protected WebDriver driver;
@@ -23,7 +28,6 @@ public abstract class BaseTest {
 
     @BeforeAll
     public static void setupClass() {
-        // Setup do WebDriver uma única vez para toda a classe
         WebDriverManager.chromedriver().setup();
     }
 
@@ -33,14 +37,12 @@ public abstract class BaseTest {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
-        // --- SUAS CONFIGURAÇÕES ATUAIS ---
-        options.addArguments("--headless"); 
-        options.addArguments("--no-sandbox"); 
-        options.addArguments("--disable-dev-shm-usage"); 
-        
-        // --- ADICIONE ESTA LINHA NOVA AQUI EMBAIXO: ---
-        options.addArguments("--remote-allow-origins=*");
-        // ----------------------------------------------
+        // --- CONFIGURAÇÃO OBRIGATÓRIA PARA GITHUB ACTIONS ---
+        options.addArguments("--headless");              // Sem interface gráfica
+        options.addArguments("--no-sandbox");            // Segurança do Linux
+        options.addArguments("--disable-dev-shm-usage"); // Memória compartilhada
+        options.addArguments("--remote-allow-origins=*"); // Permite conexão remota
+        // ---------------------------------------------------
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
@@ -56,4 +58,3 @@ public abstract class BaseTest {
         }
     }
 }
-
