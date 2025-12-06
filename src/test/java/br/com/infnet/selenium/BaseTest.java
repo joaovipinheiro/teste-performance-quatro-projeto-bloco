@@ -32,8 +32,12 @@ public abstract class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
-        // Descomente para rodar em modo headless (sem interface gráfica)
-        // options.addArguments("--headless");
+
+        // --- ALTERAÇÃO AQUI ---
+        options.addArguments("--headless"); // Agora descomentado para rodar no GitHub
+        options.addArguments("--no-sandbox"); // Necessário para ambiente CI
+        options.addArguments("--disable-dev-shm-usage"); // Evita crash de memória
+        // ----------------------
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
