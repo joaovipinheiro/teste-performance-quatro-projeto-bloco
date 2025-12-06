@@ -1,8 +1,10 @@
 package br.com.infnet.selenium;
 
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 
 /**
  * Teste de fluxo CRUD completo para Pessoa (melhorado).
@@ -101,25 +103,37 @@ public class PersonCrudTest extends BaseTest {
         );
     }
 
+    // Adicione esta importação lá em cima:
+
     @Test
     @Order(4)
     @DisplayName("4. Deve validar campos obrigatórios")
     public void testValidationErrors() {
-        // Arrange & Act
+        // Arrange
         listPage.open(baseUrl);
         listPage.clickNew();
-
         formPage.waitForFormLoad();
-        formPage.setName("AB"); // Nome muito curto
-        formPage.setEmail("email-invalido"); // Email sem @
+
+        // Garante que os campos estão vazios
+        formPage.setName("");
+        formPage.setEmail("");
+
+        // TRUQUE DO SELENIUM:
+        // Injeta JavaScript para desligar a validação 'required' do HTML5.
+        // Isso permite clicar em "Salvar" enviando tudo vazio para o Backend.
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("document.querySelector('form').noValidate = true;");
+
+        // Act
         formPage.submit();
 
         // Assert
         Assertions.assertTrue(
                 formPage.hasError(),
-                "Deve mostrar erro de validação"
+                "O sistema deve exibir erro de validação (do backend) ao submeter formulário vazio."
         );
     }
+
 
     @Test
     @Order(5)

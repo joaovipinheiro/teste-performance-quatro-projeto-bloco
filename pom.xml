@@ -18,7 +18,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>testePerformancePB2</name>
+  <name>testePerformancePB4</name>
 
   <properties>
     <java.version>17</java.version>
@@ -73,6 +73,18 @@
       <groupId>net.jqwik</groupId>
       <artifactId>jqwik-engine</artifactId>
       <version>1.7.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.11.0</version> <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>5.11.0</version>
       <scope>test</scope>
     </dependency>
 

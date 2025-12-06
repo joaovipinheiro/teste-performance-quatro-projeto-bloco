@@ -1,9 +1,10 @@
 package br.com.infnet.selenium;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TimeoutSimulationTest {
 
