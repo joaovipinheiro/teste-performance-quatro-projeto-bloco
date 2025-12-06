@@ -33,12 +33,14 @@ public abstract class BaseTest {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
-        // --- BLOCO CORRIGIDO PARA O GITHUB ACTIONS ---
-        options.addArguments("--headless");              // Roda sem tela (obrigatório no GitHub)
-        options.addArguments("--no-sandbox");            // Evita erro de permissão no Linux
-        options.addArguments("--disable-dev-shm-usage"); // Evita estouro de memória
-        options.addArguments("--remote-allow-origins=*"); // [IMPORTANTE] Evita erro 403 de conexão WebSocket
-        // ---------------------------------------------
+        // --- SUAS CONFIGURAÇÕES ATUAIS ---
+        options.addArguments("--headless"); 
+        options.addArguments("--no-sandbox"); 
+        options.addArguments("--disable-dev-shm-usage"); 
+        
+        // --- ADICIONE ESTA LINHA NOVA AQUI EMBAIXO: ---
+        options.addArguments("--remote-allow-origins=*");
+        // ----------------------------------------------
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
@@ -54,3 +56,4 @@ public abstract class BaseTest {
         }
     }
 }
+
