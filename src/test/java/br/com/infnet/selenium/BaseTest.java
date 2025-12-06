@@ -33,17 +33,17 @@ public abstract class BaseTest {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
-        // --- ALTERAÇÃO AQUI ---
-        options.addArguments("--headless"); // Agora descomentado para rodar no GitHub
-        options.addArguments("--no-sandbox"); // Necessário para ambiente CI
-        options.addArguments("--disable-dev-shm-usage"); // Evita crash de memória
-        // ----------------------
+        // --- BLOCO CORRIGIDO PARA O GITHUB ACTIONS ---
+        options.addArguments("--headless");              // Roda sem tela (obrigatório no GitHub)
+        options.addArguments("--no-sandbox");            // Evita erro de permissão no Linux
+        options.addArguments("--disable-dev-shm-usage"); // Evita estouro de memória
+        options.addArguments("--remote-allow-origins=*"); // [IMPORTANTE] Evita erro 403 de conexão WebSocket
+        // ---------------------------------------------
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        // WebDriverWait para esperas explícitas
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
